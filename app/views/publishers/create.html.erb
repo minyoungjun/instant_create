@@ -1,0 +1,26 @@
+<div style="float:left; border:1px solid red;">
+  <%Marketingtype.where(:filter => 1).each do |marketingtype|%>
+    <h1><%=marketingtype.name%></h1>
+    <%marketingtype.child_types.each do |filter_2|%>
+      <h2><%=filter_2.name%></h2>
+      <%if filter_2.child_types.count != 0%>
+        <%filter_2.child_types.each do |filter_3|%>
+          <h3 onclick="$('.showtype').hide();$('.showtype_<%=filter_3.showtype_id%>').show();"><%=filter_3.name%></h3>
+        <%end%>
+      <%end%>
+    <%end%>
+  <%end%>
+</div>
+<div style="float:left; border:1px solid blue;">
+  <%Showtype.all.each do |showtype|%>
+    <div class="showtype showtype_<%=showtype.id%>" style="display:none;">
+      <p><%=showtype.name%></p>
+      <%showtype.features.each do |feature|%>
+        <p><%=feature.name%><p>
+        <%feature.featunits.each do |featunit|%>
+          <p><%=featunit.name%></p>
+        <%end%>
+      <%end%>
+    </div>
+  <%end%>
+</div>
