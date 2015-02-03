@@ -33,14 +33,22 @@ featunit_array.each do |unit_name|
   end
 
   if unit_name == "DAU"
-    featunit.featper = 1
+    featunit.per_type = 1
   end
 
   if unit_name == "MAU"
-    featunit.featper = 2
+    featunit.per_type = 2
   end
 
   featunit.save
+
+  ["Monthly", "Weekly", "Daily", "Total"].each do |per|
+    featper = Featper.new
+    featper.featunit_id = featunit.id
+    featper.name = per
+    featper.save
+  end
+
 end
 
 
@@ -67,6 +75,7 @@ end
       featunit.unitype = 1
     when "Other..."
       featunit.unitype = 3
+      featunit.is_other = true
     else
       featunit.unitype = 6
     end
@@ -105,7 +114,301 @@ end
     featunit.feature_id = feature.id
   end
 
+  feature = Feature.new
+  feature.name = "Est. Result"
+  feature.showtype_id = showtype.id
+  feature.featype = 0
+  feature.save
 
+  featunit_array = ["Impressions", "Conversions", "Conversion Rate", "CTR", "Views", "Sign Ups", "Rank", "Intalls", "N/A", "Other..."]
+
+  featunit_array.each do |unit_name|
+
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id = feature.id
+
+    case unit_name
+
+    when "Conversion Rate" , "CTR"
+      featunit.unitype = 2
+    when "N/A"
+      featunit.unitype = 9
+    when "Other..."
+      featunit.is_other = true
+      featunit.unitype = 3
+    else
+      featunit.unitype = 1
+    end
+
+    featunit.save
+  end
+
+    feature = Feature.new
+    feature.name = "Delivery Speed"
+    feature.featype = 0
+    feature.showtype_id = showtype.id
+    feature.save
+
+
+  featunit_array = ["Impressions", "Clicks", "Installs", "Views", "N/A", "Other..."]
+
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id = feature.id
+
+    if unit_name == "N/A"
+      featunit.unitype = 9
+    elsif unit_name == "Other.."
+      featunit.is_other == true
+      featunit.unitype = 3
+    else
+      featunit.unitype = 1
+    end
+    featunit.save
+
+    ["day", "week", "month"].each do |per|
+      featper = Featper.new
+      featper.featunit_id = featunit.id
+      featper.name = per
+      featper.save
+    end
+  end
+
+  feature = Feature.new
+  feature.name = "Size"
+  feature.showtype_id = showtype.id
+  feature.featype = 0
+  feature.save
+
+  featunit_array = ["px", "cm", "m", "N/A", "Other..."]
+
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id =feature.id
+    if unit_name == "N/A"
+      featunit.unitype = 9
+    else
+      featunit.unitype = 2
+    end
+
+    if unit_name == "Other..."
+      featunit.is_other = true
+    end
+    featunit.save
+  end
+
+showtype = Showtype.new
+showtype.name = "CPP"
+showtype.save
+
+
+feature = Feature.new
+feature.name = "Traffic"
+feature.showtype_id = showtype.id
+feature.featype = 0
+feature.save
+
+featunit_array = ["Impressions", "User Views", "DAU", "MAU", "Installs", "Users", "Followers", "Views", "Other..."]
+
+featunit_array.each do |unit_name|
+  featunit = Featunit.new
+  featunit.feature_id = feature.id
+  featunit.name = unit_name
+  if unit_name == "Other..."
+    featunit.unitype = 1
+    featunit.is_other = true
+  else
+    featunit.unitype = 0
+    featunit.is_other = false
+  end
+
+  if unit_name == "DAU"
+    featunit.per_type = 1
+  end
+
+  if unit_name == "MAU"
+    featunit.per_type = 2
+  end
+
+  featunit.save
+
+  ["Monthly", "Weekly", "Daily", "Total"].each do |per|
+    featper = Featper.new
+    featper.featunit_id = featunit.id
+    featper.name = per
+    featper.save
+  end
+
+end
+
+
+
+
+  feature = Feature.new
+  feature.name = "AD type"
+  feature.showtype_id = showtype.id
+  feature.featype = 0
+  feature.save
+
+  featunit_array = ["Banner", "Interstitial", "Rich media", "Video", "Screen", "Display", "Offerwall", "Voice", "Text", "Other..."]
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id = feature.id
+    case unit_name
+
+    when "Video"
+      featunit.unitype = 7
+    when "Voice"
+      featunit.unitype = 8
+    when "Text"
+      featunit.unitype = 1
+    when "Other..."
+      featunit.unitype = 3
+      featunit.is_other = true
+    else
+      featunit.unitype = 6
+    end
+    featunit.save
+  end
+
+  feature = Feature.new
+  feature.name = "Company Type"
+  feature.featype = 0
+  feature.showtype_id = showtype.id
+  feature.save
+
+  featunit_array = ["Agency", "Ad network", "DSP", "SSP", "Ad exchange", "Publisher (App / Website)", "Media"]
+
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.feature_id
+    featunit.name = unit_name
+    featunit.unitype = 0
+    featunit.save
+  end
+
+
+  feature = Feature.new
+  feature.name = "Integration Support"
+  feature.showtype_id = showtype.id
+  feature.featype = 5
+  feature.save
+
+  featunit_array = ["SDK", "API", "S2S" , "URL Scheme", "Package Name" , "Not Needed"]
+
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.unitype = 5
+    featunit.feature_id = feature.id
+  end
+
+  feature = Feature.new
+  feature.name = "Est. Result"
+  feature.showtype_id = showtype.id
+  feature.featype = 0
+  feature.save
+
+  featunit_array = ["Impressions", "Conversions", "Conversion Rate", "CTR", "Views", "Sign Ups", "Rank", "Intalls", "N/A", "Other..."]
+
+  featunit_array.each do |unit_name|
+
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id = feature.id
+
+    case unit_name
+
+    when "Conversion Rate" , "CTR"
+      featunit.unitype = 2
+    when "N/A"
+      featunit.unitype = 9
+    when "Other..."
+      featunit.is_other = true
+      featunit.unitype = 3
+    else
+      featunit.unitype = 1
+    end
+
+    featunit.save
+  end
+
+    feature = Feature.new
+    feature.name = "Delivery Speed"
+    feature.featype = 0
+    feature.showtype_id = showtype.id
+    feature.save
+
+
+  featunit_array = ["Impressions", "Clicks", "Installs", "Views", "N/A", "Other..."]
+
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id = feature.id
+
+    if unit_name == "N/A"
+      featunit.unitype = 9
+    elsif unit_name == "Other.."
+      featunit.is_other == true
+      featunit.unitype = 3
+    else
+      featunit.unitype = 1
+    end
+    featunit.save
+
+    ["day", "week", "month"].each do |per|
+      featper = Featper.new
+      featper.featunit_id = featunit.id
+      featper.name = per
+      featper.save
+    end
+  end
+
+  feature = Feature.new
+  feature.name = "Size"
+  feature.showtype_id = showtype.id
+  feature.featype = 0
+  feature.save
+
+  featunit_array = ["px", "cm", "m", "N/A", "Other..."]
+
+  featunit_array.each do |unit_name|
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id =feature.id
+    if unit_name == "N/A"
+      featunit.unitype = 9
+    else
+      featunit.unitype = 2
+    end
+
+    if unit_name == "Other..."
+      featunit.is_other = true
+    end
+    featunit.save
+  end
+
+
+  feature = Feature.new
+  feature.name = "Period"
+  feature.showtype_id = showtype.id
+  feature.save
+
+  featunit_array = ["day", "week", "month"]
+  featunit_array.each do |unit_name|
+
+    featunit = Featunit.new
+    featunit.name = unit_name
+    featunit.feature_id = feature.id
+    featunit.unitype = 0
+    featunit.save
+
+  end
 
 
 

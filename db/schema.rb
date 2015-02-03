@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150203014228) do
     t.integer  "feature_id"
     t.string   "name"
     t.integer  "unitype"
-    t.integer  "featper",    default: 0
+    t.integer  "per_type",   default: 0
     t.boolean  "is_other",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150203014228) do
 
   create_table "featvalues", force: true do |t|
     t.integer  "feature_id"
+    t.integer  "featper_id"
     t.integer  "product_id"
     t.integer  "detail_id"
     t.string   "content"

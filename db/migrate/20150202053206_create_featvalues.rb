@@ -2,6 +2,7 @@ class CreateFeatvalues < ActiveRecord::Migration
   def change
     create_table :featvalues do |t|
       t.integer :feature_id
+      t.integer :featper_id
       t.integer :product_id
       t.integer :detail_id
       t.string  :content
